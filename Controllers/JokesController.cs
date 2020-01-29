@@ -14,18 +14,13 @@ namespace JSONApi.Controllers
     public class JokesController : Controller
     {
         
-        private categories service = new categories();
+        private Category service = new Category();
 
         [HttpGet("api/Category")]
-        public async Task<ActionResult> Categs()
+        public ActionResult Cates()
         {
-
-            return View("index",
-                await service._categories()
-            ); ;
+            return View(service.Getcategories());
         }
-
-
 
         [HttpGet("api/Jokes")]
         public IActionResult Index()
