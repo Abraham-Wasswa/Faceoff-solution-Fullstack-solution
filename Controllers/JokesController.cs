@@ -19,7 +19,7 @@ namespace JSONApi.Controllers
         [HttpGet("api/Category")]
         public ActionResult Cates()
         {
-            return View(service.Getcategories());
+            return Ok(service.Getcategories());
         }
 
         [HttpGet("api/Jokes")]
