@@ -32,7 +32,7 @@ namespace JSONApi.Controllers
 
             string Norris_JSON = reader.ReadToEnd();
 
-            Jokes myJoke = Newtonsoft.Json.JsonConvert.DeserializeObject<Jokes>(Norris_JSON);
+            RandomJ myJoke = Newtonsoft.Json.JsonConvert.DeserializeObject<RandomJ>(Norris_JSON);
 
             return Ok(myJoke);
         }
