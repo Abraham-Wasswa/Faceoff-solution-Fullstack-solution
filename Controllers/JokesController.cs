@@ -8,6 +8,8 @@ using System.IO;
 using JSONApi.Models;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework.Internal;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace JSONApi.Controllers
 {
@@ -17,9 +19,20 @@ namespace JSONApi.Controllers
         private Category service = new Category();
 
         [HttpGet("api/Category")]
-        public ActionResult Cates()
+        public async Task<ActionResult> Cates()
         {
-            return Ok(service.Getcategories());
+            List<string> result = new List<string>();
+            using (HttpClient httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Add("Get", "application/json");
+                var response = await httpClient.GetAsync("https://api.chucknorris.io/jokes/categories");
+               
+                var content = await response.Content.ReadAsStringAsync();
+                
+                result = JsonConvert.DeserializeObject<List<string>>(content);
+                           
+            }
+            return Ok(result);
         }
 
         [HttpGet("api/Jokes")]

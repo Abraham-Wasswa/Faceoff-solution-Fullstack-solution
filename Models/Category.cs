@@ -10,15 +10,21 @@ namespace JSONApi.Models
     public class Category
     {
 
-        readonly string myUri = "https://api.chucknorris.io/jokes/categories";
+        public string myUri = "https://api.chucknorris.io/jokes/categories";
 
-        public List<categories> Getcategories()
+        public async Task<List<string>> Getcategories()
         {
             string uri = myUri;
             using (HttpClient httpClient = new HttpClient())
             {
-                Task<string> response = httpClient.GetStringAsync(uri);
-                return JsonConvert.DeserializeObject<List<categories>>(response.Result);               
+                httpClient.DefaultRequestHeaders.Add("Get", "application/json");
+                var response = await httpClient.GetAsync(uri);
+                //Task<string> response = httpClient.GetStringAsync(uri);
+                var content = await response.Content.ReadAsStringAsync();
+                //var me = JsonConvert.SerializeObject(response.Result);
+                var result = JsonConvert.DeserializeObject<List<string>>(content);
+                return result;
+                //return JsonConvert.DeserializeObject<List<categories>>(me);               
             }
         }
 
@@ -36,8 +42,10 @@ namespace JSONApi.Models
 
     public class categories
     {
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int Id { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<string> CategoriesValue { get; set; }
     }
 }
